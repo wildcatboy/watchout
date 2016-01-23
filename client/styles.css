@@ -3,10 +3,10 @@
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
 
-.gameArea{
+svg{
   border: 2px solid black;
   height: 500px;
   width: 500px;
-  /*Add position:absolute to put all pieces on board; breaks on-click.*/
+  position: absolute;
 } 
 
