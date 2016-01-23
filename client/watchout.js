@@ -21,8 +21,8 @@ var enemies =
     .data(enemyArr)         //plug in to data source to bind to each circle
     .enter()                //create a placeholder for each datum in data source
       .append("circle") // appends circle to each svg
-      .attr("cx", function (d, i) { return 50 * (Math.floor(Math.random() * i));}) 
-      .attr("cy", function (d, i) { return 50 * (Math.floor(Math.random() * i));}) 
+      .attr("cx", function (d, i) { return 50 * Math.floor((Math.random() * i));}) 
+      .attr("cy", function (d, i) { return 50 * Math.floor((Math.random() * i));}) 
       .attr("r", 5) //circle radius
       .style("fill", "purple")
       .classed('enemy', true);
@@ -52,37 +52,64 @@ function dragmove(d) {
 
 // Add a rect of a new color to board SVG.
 var player = 
-  board.selectAll('rects')
+  board.selectAll('players')
     .data([1])
     .enter()
-      .append('rect')
-      .attr("x", 250) 
-      .attr("y", 250) 
-      .attr("height", 10) 
-      .attr("width", 10)
-      .style("color", "blue")
+      .append('circle')
+      .attr("r", 5)
+      .attr("cx", 250) 
+      .attr("cy", 250) 
+      .attr("fill", "green")
       .classed('player', true);
 
     // player.on("click", function(d) { alert("hello"); });
 
-// board.on('click', function(){
-//   return alert('Hello!');
-// });
 
-var drag = d3.behavior.drag()
-    .on("drag", dragmove);
-
-function dragmove(d) {
-  var x = d3.event.x;
-  var y = d3.event.y;
-  d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+var position = [219, 29];  // internal variable
+function on_drag() {
+    // set internal variable based on mouse position
+    position = [d3.event.x, d3.event.y];
+    redraw();
+}
+function redraw() {
+    // set circle's position based on internal variable
+    d3.select(".player")
+        .attr("cx", position[0])
+        .attr("cy", position[1]);
 }
 
-player.on('drag', dragmove);
+d3.behavior.drag()  // capture mouse drag event
+    .on('drag', on_drag)
+    .call(d3.select(".player"));
+
+// function dragmove(d) {
+//   var x = d3.event.x;
+//    var y = d3.event.y;
+//    d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+// }
+
+
+// var model = {
+//     position: [100, 50],
+//     get: function() { return this.position; },
+//     set: function(p) { this.position = p; }
+// };
+
+// function redraw() {
+//     d3.select(".player")
+//         .attr('transform', "translate(" + model.get() + ")");
+// }
+
+// function ref(obj, prop) {
+//     return {
+//         get: function() { return obj[prop]; },
+//         set: function(v) { obj[prop] = v; }
+//     };
+// };
 
 
 //============================================================
-// Function to handle movement of enemies and collision detection
+// Handle movement of enemies and collision detection
 function moveEnemies(){
   enemies
     .transition()
@@ -91,20 +118,18 @@ function moveEnemies(){
     .attr("cy", function (d, i) { return 50 * (Math.floor(Math.random() * i));});
 
     window.setTimeout(moveEnemies, 2000);
-};
 
+    function checkCollision(){
+      // if (enemy center - player center)
+    }
 
-
-  // Set up event listener for player proximity to enemy
-
-  // Detect collision if enemy touches player (look at CoffeeScript example)
-    
-    // When collision is detected: 
-      // if currentScore is higher than highScore, set new highScore
-
-        // reset currentScore to 0
-
+    // add event listener for player proximity
+    // if collision (See coffeescript example)
+      // if current score (count) > highScore
+        // highScore = current score (count)
+      // reset count to 0
       // increment collisions
+};
 
   
 //============================================================
@@ -114,10 +139,9 @@ var currentScore = d3.select('#currentScore')
 
 function scoreCount(){
   count++;
-  console.log(count);
   currentScore.text(count);
 
-  window.setTimeout(scoreCount, 100);
+  window.setTimeout(scoreCount, 10);
 };
 
 
