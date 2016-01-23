@@ -13,3 +13,14 @@ svg{
   position: absolute;
 } 
 
+circle.enemy{
+  background-image: url('alon1.png');
+  background-size: 100% 100%;
+  position: absolute;
+}
+
+.enemy{
+  background-image: url('leslie1.png');
+  background-size: 100% 100%;
+  position: absolute;
+}

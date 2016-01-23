@@ -79,8 +79,8 @@ moveEnemies(enemies);
 var prevCollision = false;
 function collisionDetector(){
   var collision = false;
-  enemies.each(function(){
 
+  enemies.each(function(){
     var x = Math.abs(parseInt(player.attr("cx")) - this.cx.animVal.value); 
     var y = Math.abs(parseInt(player.attr("cy")) - this.cy.animVal.value); 
     var distance =  Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
@@ -91,18 +91,20 @@ function collisionDetector(){
     
     if(limit > distance){
       collision = true;
+    }
+  });
+
+    if(collision){
       if(currentScore > highScore){
-        highScore = currentScore
+        highScore = currentScore;
       }
       currentScore = 0;
       if(prevCollision !== collision){
         collisions++;
-      } else {
-        prevCollision = collision;
       }
     }
-  });
-}
+   prevCollision = collision;
+};
 d3.timer(collisionDetector, 1);
 
 //============================================================
