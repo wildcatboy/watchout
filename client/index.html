@@ -5,11 +5,13 @@
   </head>
   <body>
     <div class="scoreboard">
-      <!-- Modify the scoreboard when important events occur in your game! -->
-      <div class="high">High score: <span>0</span></div>
-      <div class="current">Current score: <span>0</span></div>
-      <div class="collisions">Collisions: <span>0</span></div>
+      <div>High score: <span id="highScore"></span></div>
+      <div>Current score: <span id="currentScore"></span></div>
+      <div>Collisions: <span id="collisionCount"></span></div>
     </div>
+      
+    <div class="gameArea"></div>
+
     <script src="lib/d3.js" charset="utf-8"></script>
     <script src='watchout.js'></script>
   </body>
