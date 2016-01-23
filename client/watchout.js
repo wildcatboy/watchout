@@ -76,7 +76,9 @@ function moveEnemies(){
 moveEnemies(enemies);
  //============================================================ 
 // Return true if collision is detected between an enemy and the player.
-function collision(){
+var prevCollision = false;
+function collisionDetector(){
+  var collision = false;
   enemies.each(function(){
 
     var x = Math.abs(parseInt(player.attr("cx")) - this.cx.animVal.value); 
@@ -88,14 +90,20 @@ function collision(){
     var limit = eR + pR;
     
     if(limit > distance){
+      collision = true;
       if(currentScore > highScore){
         highScore = currentScore
       }
       currentScore = 0;
+      if(prevCollision !== collision){
+        collisions++;
+      } else {
+        prevCollision = collision;
+      }
     }
   });
 }
-d3.timer(collision, 1);
+d3.timer(collisionDetector, 1);
 
 //============================================================
 // Iterate over enemies, on collision with player, update scores and collision count.
@@ -116,7 +124,7 @@ function scoreCount(){
   currentScore++;
   d3.select('#currentScore').text(currentScore);
   d3.select('#highScore').text(highScore);
-  d3.select('#collisionCount').text(collisionCount);
+  d3.select('#collisionCount').text(collisions);
   window.setTimeout(scoreCount, 10);
 };
 
