@@ -7,6 +7,9 @@ var board =
     .attr("width", 500)
     .attr("height", 500)
 
+var currentScore = 0;
+var collisions = 0;
+var highScore = 0;
 //============================================================
 //Build enemies [https://developer.mozilla.org/en-US/docs/SVG]
 var enemyArr = [];
@@ -70,7 +73,7 @@ function moveEnemies(){
 
     window.setTimeout(moveEnemies, 2000);
 };
-
+moveEnemies(enemies);
  //============================================================ 
 // Return true if collision is detected between an enemy and the player.
 function collision(){
@@ -85,52 +88,37 @@ function collision(){
     var limit = eR + pR;
     
     if(limit > distance){
-      alert("collision!");
-      return true; 
+      if(currentScore > highScore){
+        highScore = currentScore
+      }
+      currentScore = 0;
     }
   });
-  //d3.timer
 }
-window.setTimeout(collision, 10);
+d3.timer(collision, 1);
 
 //============================================================
 // Iterate over enemies, on collision with player, update scores and collision count.
-/*
-function checkCollision(){
-  var collided = false;
-    if(collision){
-      collided = true
-    }
-  });
 
-  //run collisionDistance on each of the enemies in the array
-    //each for each element of a D3 collection
-    //something like: enemies.each(function(enemy){checkCollision()})
 
-  if(collision){
+  //if(collision){
     // if current score (count) > highScore
      // highScore = current score (count)
   // reset count to 0
   // increment collisions    
-  }
-}
-*/
+ 
 // check each enemy for collision
 //board.selectAll('.enemy').each(function(){collision(this);}); //works to select an individual enemy as circle
 
 //============================================================
 // On load, begin incrementing currentScore
-var count = 0;
-var currentScore = d3.select('#currentScore')
-
 function scoreCount(){
-  count++;
-  currentScore.text(count);
-
+  currentScore++;
+  d3.select('#currentScore').text(currentScore);
+  d3.select('#highScore').text(highScore);
+  d3.select('#collisionCount').text(collisionCount);
   window.setTimeout(scoreCount, 10);
 };
-
-moveEnemies();
 
 scoreCount();
 
