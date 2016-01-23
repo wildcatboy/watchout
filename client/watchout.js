@@ -7,6 +7,7 @@ var board =
     .attr("width", 500)
     .attr("height", 500)
 
+
 var currentScore = 0;
 var collisions = 0;
 var highScore = 0;
@@ -24,12 +25,17 @@ var enemies =
       .append("circle") // appends circle to each svg
       .attr("cx", function (d, i) { return 500 * Math.random();}) 
       .attr("cy", function (d, i) { return 500 * Math.random();}) 
-      .attr("r", 5) //circle radius
-      .style("fill", "purple")
+      .attr("r", 10) //circle radius
+      .style('fill', 'alon.png')
       .classed('enemy', true);
 
+//   .append('image')
+// //  .attr('d',path)
+//   .attr('xlink:href','WCtrophy/trophy.png')
+// .style("fill", "url(alon1.png)");
   //Use CSS3 animations to make the enemies whirling shuriken.
  // [https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations]
+
 
 
 //============================================================
@@ -39,7 +45,7 @@ var player =
     .data([1])
     .enter()
       .append('circle')
-      .attr("r", 5)
+      .attr("r", 10)
       .attr("cx", 250) 
       .attr("cy", 250) 
       .attr("fill", "green")
@@ -95,6 +101,7 @@ function collisionDetector(){
   });
 
     if(collision){
+      board.style("background-color", "red");
       if(currentScore > highScore){
         highScore = currentScore;
       }
@@ -102,25 +109,14 @@ function collisionDetector(){
       if(prevCollision !== collision){
         collisions++;
       }
+    }else{
+      board.style("background-color", "white");
     }
    prevCollision = collision;
 };
 d3.timer(collisionDetector, 1);
 
-//============================================================
-// Iterate over enemies, on collision with player, update scores and collision count.
-
-
-  //if(collision){
-    // if current score (count) > highScore
-     // highScore = current score (count)
-  // reset count to 0
-  // increment collisions    
- 
-// check each enemy for collision
-//board.selectAll('.enemy').each(function(){collision(this);}); //works to select an individual enemy as circle
-
-//============================================================
+//==========================================================
 // On load, begin incrementing currentScore
 function scoreCount(){
   currentScore++;

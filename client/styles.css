@@ -6,14 +6,26 @@ body{
   position: relative;
 }
 
+.scoreboard{
+  text-align: center;
+  font-family: "Courier New";
+  font-size: 2em;
+}
+
 svg{
+  display: block;
   border: 2px solid black;
   height: 500px;
   width: 500px;
+
   position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: 100px 0 0 -250px; 
+ 
 } 
 
-circle.enemy{
+.player{
   background-image: url('alon1.png');
   background-size: 100% 100%;
   position: absolute;
