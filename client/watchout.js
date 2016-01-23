@@ -7,7 +7,7 @@ var board =
     .append("svg")
     .attr("position", "absolute")
     .attr("width", 500)
-    .attr("height", 500);
+    .attr("height", 500)
 
 //============================================================
 //Build enemies [https://developer.mozilla.org/en-US/docs/SVG]
@@ -59,29 +59,38 @@ var player =
       .attr("x", 250) 
       .attr("y", 250) 
       .attr("height", 10) 
-      .attr("width", 10)  
+      .attr("width", 10)
       .style("color", "blue")
       .classed('player', true);
 
-player.on("click", function(){ alert("derp");});
+    // player.on("click", function(d) { alert("hello"); });
 
-var drag = d3.behavior.drag();
+// board.on('click', function(){
+//   return alert('Hello!');
+// });
 
-//player.on("click", function() {
-//  player.call(drag);
-//});
+var drag = d3.behavior.drag()
+    .on("drag", dragmove);
+
+function dragmove(d) {
+  var x = d3.event.x;
+  var y = d3.event.y;
+  d3.select(this).attr("transform", "translate(" + x + "," + y + ")");
+}
+
+player.on('drag', dragmove);
 
 
 //============================================================
 // Function to handle movement of enemies and collision detection
-var moveEnemies = function(){
+function moveEnemies(){
   enemies
     .transition()
     .duration(2000)
     .attr("cx", function (d, i) { return 50 * (Math.floor(Math.random() * i));}) 
     .attr("cy", function (d, i) { return 50 * (Math.floor(Math.random() * i));});
 
-  window.setTimeout(moveEnemies, 2000);
+    window.setTimeout(moveEnemies, 2000);
 };
 
 
@@ -100,27 +109,20 @@ var moveEnemies = function(){
   
 //============================================================
 // On load, begin incrementing currentScore
-var scoreCount = function(){
-  // Update currentScore span
-  //  Score counter:
-  var currentScore = 0;
-  var updateCurrentScore = function(){
-    currentScore++;
-    d3.select('#currentScore').text(currentScore.toString());
-    return updateCurrentScore();
-  }
+var count = 0;
+var currentScore = d3.select('#currentScore')
+
+function scoreCount(){
+  count++;
+  console.log(count);
+  currentScore.text(count);
+
+  window.setTimeout(scoreCount, 100);
 };
 
-scoreCount();
+
 moveEnemies();
 
-
-
-
-
-
-
-
-
+scoreCount();
 
 
