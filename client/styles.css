@@ -1,9 +1,7 @@
-/* your beautiful css styling goes here! */
-
-/* Note: an asteroid image is included in this repo.
-Feel free to use it if you like. */
 body{
   position: relative;
+  background-image: url("http://images3.alphacoders.com/273/273289.jpg");
+  background-size: 100%;
 }
 
 .scoreboard{
@@ -22,17 +20,4 @@ svg{
   top: 50%;
   left: 50%;
   margin: 100px 0 0 -250px; 
- 
-} 
-
-.player{
-  background-image: url('alon1.png');
-  background-size: 100% 100%;
-  position: absolute;
-}
-
-.enemy{
-  background-image: url('leslie1.png');
-  background-size: 100% 100%;
-  position: absolute;
 }

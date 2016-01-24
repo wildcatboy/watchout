@@ -11,31 +11,39 @@ var board =
 var currentScore = 0;
 var collisions = 0;
 var highScore = 0;
+
+
 //============================================================
-//Build enemies [https://developer.mozilla.org/en-US/docs/SVG]
+//Build enemies 
+
 var enemyArr = [];
 for(var i = 2; i < 12; i++){
   enemyArr.push(i);
 };
 
+// gradient pattern
+var grad = board.append("defs")
+  .append("linearGradient")
+  .attr("id", "grad")
+  .attr("x1", "0%")
+  .attr("x2", "0%")
+  .attr("y1", "100%")
+  .attr("y2", "0%");
+
+grad.append("stop").attr("offset", "50%").style("stop-color", "white");
+grad.append("stop").attr("offset", "50%").style("stop-color", "red");
+
+
 var enemies = 
   board.selectAll('circle') // grab empty reference for circles to fill in 
-    .data(enemyArr)         //plug in to data source to bind to each circle
+    .data(enemyArr)        //plug in to data source to bind to each circle
     .enter()                //create a placeholder for each datum in data source
       .append("circle") // appends circle to each svg
+      .attr('class', 'enemy')
+      .attr("fill", "url(#grad)")
       .attr("cx", function (d, i) { return 500 * Math.random();}) 
       .attr("cy", function (d, i) { return 500 * Math.random();}) 
-      .attr("r", 10) //circle radius
-      .style('fill', 'alon.png')
-      .classed('enemy', true);
-
-//   .append('image')
-// //  .attr('d',path)
-//   .attr('xlink:href','WCtrophy/trophy.png')
-// .style("fill", "url(alon1.png)");
-  //Use CSS3 animations to make the enemies whirling shuriken.
- // [https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations]
-
+      .attr("r", 10);
 
 
 //============================================================
@@ -80,6 +88,7 @@ function moveEnemies(){
     window.setTimeout(moveEnemies, 2000);
 };
 moveEnemies(enemies);
+
  //============================================================ 
 // Return true if collision is detected between an enemy and the player.
 var prevCollision = false;
@@ -110,11 +119,12 @@ function collisionDetector(){
         collisions++;
       }
     }else{
-      board.style("background-color", "white");
+      board.style("background-color", "transparent");
     }
    prevCollision = collision;
 };
 d3.timer(collisionDetector, 1);
+
 
 //==========================================================
 // On load, begin incrementing currentScore
@@ -127,5 +137,3 @@ function scoreCount(){
 };
 
 scoreCount();
-
-
